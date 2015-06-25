@@ -1,0 +1,18 @@
+<resources>
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Strings related to Settings -->
+
+    <!-- Example General settings -->
+    <string name="header_general_settings">General setting</string>
+    <string name="pref_header_item">Item</string>
+
+    <string name="header_device_type">Device type</string>
+    <string name="hanger">Hanger</string>
+    <string name="kiosk">Kiosk</string>
+
+    <!-- Settings for items-->
+    <string name="header_change_item">Change item</string>
+    <string name="Scan">Scan</string>
+
+</resources>

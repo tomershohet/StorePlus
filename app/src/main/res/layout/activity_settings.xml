@@ -1,0 +1,55 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.device.storeplus.storeplus.SettingsActivity">
+
+    <TextView android:text="@string/header_device_type" android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/deviceTypeHeader" />
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/deviceTypeHeader"
+        android:id="@+id/deviceTypeGroup"
+        android:background="#abf234"
+        android:checkedButton="@+id/radioButtonHanger" >
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hanger"
+            android:id="@+id/radioButtonHanger"
+
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kiosk"
+            android:id="@+id/radioButtonKiosk"
+
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+    </RadioGroup>
+
+    <TextView android:text="@string/header_change_item" android:layout_width="wrap_content"
+        android:layout_below="@+id/deviceTypeGroup"
+        android:layout_height="wrap_content"
+        android:id="@+id/ItemHeader" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/Scan"
+        android:id="@+id/buttonScan"
+        android:layout_below="@+id/ItemHeader"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+</RelativeLayout>

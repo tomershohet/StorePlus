@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">StorePlus</string>
+
+    // Buttons
+    <string name="Configurate">Configurate</string>
+
+    // Sizes
+    <string name="extraSmall">XS</string>
+    <string name="small">S</string>
+    <string name="medium">M</string>
+    <string name="large">L</string>
+    <string name="extraLarge">XL</string>
+
+    // Dummy data
+    <string name="priceTag">25.99$</string>
+
+    // QR scanner messagas
+    <string name="result_succeeded">QR/Barcode reading succeeded</string>
+    <string name="result_failed">QR/Barcode reading failed</string>
+    <string name="result_failed_why">Not enough light</string>
+    <string name="scanner_start">Scanner Start!</string>
+
+    <string name="action_settings">Settings</string>
+
+</resources>

@@ -1,0 +1,86 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:background="#0099cc"
+    tools:context=".selectSizeActivity">
+
+    <LinearLayout android:id="@+id/fullscreen_content" style="?metaButtonBarStyle"
+        android:layout_width="match_parent" android:layout_height="match_parent"
+        android:gravity="center_vertical|right"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:orientation="horizontal">
+
+    <LinearLayout android:id="@+id/buttons_container" style="?metaButtonBarStyle"
+        android:layout_width="wrap_content" android:layout_height="match_parent"
+        android:gravity="center_vertical|center_horizontal"
+        android:background="@color/bright_foreground_material_light"
+        android:orientation="vertical">
+
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/Configurate"
+            android:id="@+id/buttonCnfg"
+            android:textSize="@dimen/abc_action_bar_stacked_max_height"
+            android:padding="@dimen/abc_action_bar_content_inset_material"
+            android:layout_gravity="top|center_vertical" />
+
+
+        <LinearLayout android:id="@+id/size_buttons_controls" style="?metaButtonBarStyle"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:gravity="center_vertical|center_horizontal"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/small"
+                android:id="@+id/button"
+                android:textSize="@dimen/abc_action_bar_stacked_max_height"
+                android:padding="@dimen/abc_action_bar_stacked_max_height"
+                android:layout_gravity="left|center_vertical" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/medium"
+                android:id="@+id/button2"
+                android:textSize="@dimen/abc_action_bar_stacked_max_height"
+                android:padding="@dimen/abc_action_bar_stacked_max_height"
+                android:layout_gravity="center|center_vertical" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/large"
+                android:id="@+id/button3"
+                android:textSize="@dimen/abc_action_bar_stacked_max_height"
+                android:padding="@dimen/abc_action_bar_stacked_max_height"
+                android:layout_gravity="right|center_vertical" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/priceTag"
+            android:id="@+id/textView"
+            android:paddingTop="@dimen/abc_action_bar_stacked_max_height"
+            android:layout_gravity="center_horizontal" />
+
+    </LinearLayout>
+
+        <ImageView
+            android:src="@drawable/shirt2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/clotheImageView"
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
+            android:layout_gravity="right|center_vertical" />
+
+    </LinearLayout>
+
+</FrameLayout>
