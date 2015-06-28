@@ -25,7 +25,7 @@ public class ServerApi {
         User user = new User();
         user.id = (String)userDetails.get("uid");
         user.name = (String)userDetails.get("name");
-        user.imageUrl= (String)userDetails.get("imageUrl");
+        user.imageUrl= (String)userDetails.get("imageURL");
 
         return user;
     }
@@ -44,7 +44,7 @@ public class ServerApi {
         // Fill the user details
         bag.user.id = (String)userMap.get("uid");
         bag.user.name = (String)userMap.get("name");
-        bag.user.imageUrl= (String)userMap.get("imageUrl");
+        bag.user.imageUrl= (String)userMap.get("imageURL");
 
         // Fill the bag details
         ArrayList<Map> bagItems = (ArrayList<Map>)bagMap.get("items");
@@ -53,7 +53,7 @@ public class ServerApi {
             String title = (String) currItem.get("title");
             Double price = Double.parseDouble((String) currItem.get("price"));
             String currency = currItem.get("currency") == null ? "$" : (String) currItem.get("currency");
-            String imageUrl = (String) currItem.get("imageUrl");
+            String imageUrl = (String) currItem.get("imageURL");
             SingleItem singleItem = new SingleItem(id, title, price, imageUrl, currency);
 
             // Add the size
@@ -81,7 +81,7 @@ public class ServerApi {
         String title = (String) currItem.get("title");
         Double price = Double.parseDouble((String) currItem.get("price"));
         String retCurrency = currItem.get("currency") == null ? "$" : (String) currItem.get("currency");
-        String imageUrl = (String) currItem.get("imageUrl");
+        String imageUrl = (String) currItem.get("imageURL");
         SingleItem singleItem = new SingleItem(id, title, price, imageUrl, retCurrency);
 
         ArrayList<Map> itemSizes = (ArrayList<Map>) currItem.get("sizes");
@@ -187,7 +187,7 @@ public class ServerApi {
                     "     {\n" +
                     "          \"uid\": \"14932590\",\n" +
                     "          \"name\": \"Tomer Shohet\",\n" +
-                    "          \"imageUrl\": \"https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xtf1/v/t1.0-1/p160x160/10561763_10152659558942682_4962942110060764144_n.jpg?oh=fc3a189547e1d87d0e22ac1c13e975fb&oe=56217C4E&__gda__=1445122776_a533be467206cc4ec8cac28d84f98260\"      \n" +
+                    "          \"imageURL\": \"https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xtf1/v/t1.0-1/p160x160/10561763_10152659558942682_4962942110060764144_n.jpg?oh=fc3a189547e1d87d0e22ac1c13e975fb&oe=56217C4E&__gda__=1445122776_a533be467206cc4ec8cac28d84f98260\"      \n" +
                     "     },\n" +
                     "     \"bag\": \n" +
                     "     {\n" +
@@ -269,7 +269,7 @@ public class ServerApi {
             return "{\n" +
                     "     \"uid\": \"14932590\",\n" +
                     "     \"name\": \"Tomer Shohet\",\n" +
-                    "     \"profileImageUrl\": \"https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xtf1/v/t1.0-1/p160x160/10561763_10152659558942682_4962942110060764144_n.jpg?oh=fc3a189547e1d87d0e22ac1c13e975fb&oe=56217C4E&__gda__=1445122776_a533be467206cc4ec8cac28d84f98260\"      \n" +
+                    "     \"imageURL\": \"https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xtf1/v/t1.0-1/p160x160/10561763_10152659558942682_4962942110060764144_n.jpg?oh=fc3a189547e1d87d0e22ac1c13e975fb&oe=56217C4E&__gda__=1445122776_a533be467206cc4ec8cac28d84f98260\"      \n" +
                     "}";
         }
     }

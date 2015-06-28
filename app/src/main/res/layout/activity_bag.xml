@@ -1,16 +1,55 @@
-<HorizontalScrollView
-    android:id="@+id/horizontal_scroll"
+<LinearLayout
+    android:id="@+id/bag_linear"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:gravity="center_vertical">
+    android:orientation="vertical"
+    android:gravity="center_vertical|top"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <LinearLayout
-        android:id="@+id/linear"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/bag_user_linear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_alignParentLeft="true"
+            android:id="@+id/bag_details" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:id="@+id/bag_user_imageView" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_toLeftOf="@id/bag_user_imageView"
+            android:id="@+id/bag_user_title" />
+
+
+    </RelativeLayout>
+
+    <HorizontalScrollView
+        android:id="@+id/bag_items_horizontal_scroll"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
         android:gravity="center_vertical">
-    </LinearLayout>
 
-</HorizontalScrollView>
+        <LinearLayout
+            android:id="@+id/bag_items_linear"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+        </LinearLayout>
+
+    </HorizontalScrollView>
+
+
+</LinearLayout>

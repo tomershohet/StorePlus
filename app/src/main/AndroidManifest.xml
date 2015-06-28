@@ -26,6 +26,7 @@
         <activity
             android:name=".BagActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="landscape"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
             android:label="@string/title_activity_bag" >
             <intent-filter>
