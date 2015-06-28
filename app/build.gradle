@@ -30,4 +30,7 @@ dependencies {
 
     compile 'com.codesnippets4all:quick-json:1.0.4'
 
+    compile 'com.android.support:appcompat-v7:22.1.1'
+    compile 'com.android.support:recyclerview-v7:+'
+
 }

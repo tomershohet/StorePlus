@@ -3,24 +3,14 @@ package com.device.storeplus.storeplus;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.codesnippets4all.json.parsers.JSONParser;
-import com.codesnippets4all.json.parsers.JsonParserFactory;
-import com.device.storeplus.storeplus.R;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
-
-import org.json.JSONObject;
-
-import java.util.Map;
 
 public class SettingsActivity extends Activity {
     public static final String PREF_SHARED_ITEM = "device_settings";
@@ -87,7 +77,7 @@ public class SettingsActivity extends Activity {
             if (contents != null) {
                 Toast.makeText(getBaseContext(), R.string.result_succeeded + ": " + result.toString(), Toast.LENGTH_LONG).show();
 
-                String jsCurrItem = serverApi.getItemDetails(1, "", "");
+                String jsCurrItem = ServerApi.Json.getItemDetails(1, "", "");
 
                 // Save the curr item on shared preferences
                 SharedPreferences.Editor editor = getSharedPreferences(PREF_SHARED_ITEM, MODE_PRIVATE).edit();
