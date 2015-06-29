@@ -3,6 +3,7 @@ package com.device.storeplus.storeplus;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,6 +12,8 @@ import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+
+import java.util.Map;
 
 public class SettingsActivity extends Activity {
     public static final String PREF_SHARED_ITEM = "device_settings";
@@ -77,12 +80,17 @@ public class SettingsActivity extends Activity {
             if (contents != null) {
                 Toast.makeText(getBaseContext(), R.string.result_succeeded + ": " + result.toString(), Toast.LENGTH_LONG).show();
 
-                String jsCurrItem = ServerApi.Json.getItemDetails(1, "", "");
+                String qrResult = result.getContents();
+                String iid = qrResult.substring(qrResult.lastIndexOf("/"), qrResult.length());
+
+
+                new getItemDetailsAsyncTask().execute(iid, "", "");
+                //String jsCurrItem = ServerApi.Json.getItemDetails(1, "", "");
 
                 // Save the curr item on shared preferences
-                SharedPreferences.Editor editor = getSharedPreferences(PREF_SHARED_ITEM, MODE_PRIVATE).edit();
-                editor.putString(PREF_ITEM, jsCurrItem);
-                editor.commit();
+                //SharedPreferences.Editor editor = getSharedPreferences(PREF_SHARED_ITEM, MODE_PRIVATE).edit();
+                //editor.putString(PREF_ITEM, jsCurrItem);
+                //editor.commit();
 
                 //showDialog(R.string.result_succeeded, result.toString());
             } else {
@@ -93,4 +101,21 @@ public class SettingsActivity extends Activity {
         }
     }
 
+    private class getItemDetailsAsyncTask extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... params) {
+            return ServerApi.Json.getItemDetails(params[0], "", "");
+        }
+
+        // onPostExecute displays the results of the AsyncTask.
+        @Override
+        protected void onPostExecute(String result) {
+            // Save the curr item on shared preferences
+            SharedPreferences.Editor editor = getSharedPreferences(PREF_SHARED_ITEM, MODE_PRIVATE).edit();
+            //if (((Map)result).get("root") != null) {
+                editor.putString(PREF_ITEM, result);
+                editor.commit();
+            //}
+        }
+    }
 }

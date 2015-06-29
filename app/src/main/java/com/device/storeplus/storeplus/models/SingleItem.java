@@ -3,6 +3,7 @@ package com.device.storeplus.storeplus.models;
 import android.content.ClipData;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by Tomer on 25-Jun-15.
@@ -14,6 +15,8 @@ public class SingleItem {
     public String currency;
     public String imageUrl;
     public ArrayList<ItemSize> itemSizes;
+    public Date   date;
+    public String location;
 
     public SingleItem() {
         this("1", "Great shirt", 25.99, "", "$");
@@ -28,12 +31,22 @@ public class SingleItem {
     }
 
     public SingleItem(String id, String title, Double price, String imageUrl, String currency, ArrayList<ItemSize> itemSizes) {
+        this(id, title, price, imageUrl, currency, itemSizes, null, "");
+    }
+
+    public SingleItem(String id, String title, Double price, String imageUrl, String currency, Date date, String location) {
+        this(id, title, price, imageUrl, currency, new ArrayList<ItemSize>(), null, "");
+    }
+
+    public SingleItem(String id, String title, Double price, String imageUrl, String currency, ArrayList<ItemSize> itemSizes, Date date, String location) {
         this.id = id;
         this.currency = currency;
         this.title = title;
         this.price = price;
         this.imageUrl = imageUrl;
         this.itemSizes = itemSizes;
+        this.date = date;
+        this.location = location;
     }
 
     public static class ItemSize {

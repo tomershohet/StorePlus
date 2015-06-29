@@ -17,6 +17,8 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.renderscript.RenderScript;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -24,9 +26,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.Console;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Map;
 
 
@@ -97,12 +101,21 @@ public class SelectSizeActivity extends Activity {
 
         JsonParserFactory factory=JsonParserFactory.getInstance();
         JSONParser parser=factory.newJsonParser();
-        Map currItem = parser.parseJson(currItemString.toString());
 
-        // Set the items value on screen
-        String imageUrl = currItem.get("imageURL").toString();
-        if (imageUrl != null) {
-            new RetriveImage().execute(new String[] {imageUrl});
+        try {
+            Map currItem = parser.parseJson(currItemString);
+
+            // Set the items value on screen
+            if (currItem.get("imageURL") == null)
+                return;
+            String imageUrl = currItem.get("imageURL").toString();
+            if (imageUrl != null) {
+                new RetriveImage().execute(new String[]{imageUrl});
+            }
+        }
+
+        catch (Exception ex) {
+            Log.println(Log.ERROR, "Parsing item json", ex.getMessage());
         }
     }
 
