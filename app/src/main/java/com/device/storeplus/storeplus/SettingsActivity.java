@@ -81,7 +81,7 @@ public class SettingsActivity extends Activity {
                 Toast.makeText(getBaseContext(), R.string.result_succeeded + ": " + result.toString(), Toast.LENGTH_LONG).show();
 
                 String qrResult = result.getContents();
-                String iid = qrResult.substring(qrResult.lastIndexOf("/"), qrResult.length());
+                String iid = qrResult.substring(qrResult.lastIndexOf("/") + 1, qrResult.length());
 
 
                 new getItemDetailsAsyncTask().execute(iid, "", "");
@@ -104,7 +104,7 @@ public class SettingsActivity extends Activity {
     private class getItemDetailsAsyncTask extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... params) {
-            return ServerApi.Json.getItemDetails(params[0], "", "");
+            return ServerApi.Json.getItemDetails(params[0], null, null);
         }
 
         // onPostExecute displays the results of the AsyncTask.

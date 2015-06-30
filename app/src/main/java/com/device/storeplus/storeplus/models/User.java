@@ -9,7 +9,6 @@ public class User {
     public String imageUrl;
 
     public User() {
-        this("", "", "");
     }
 
     public User(String id, String name, String imageUrl) {

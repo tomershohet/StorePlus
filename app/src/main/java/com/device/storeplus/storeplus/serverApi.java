@@ -14,7 +14,9 @@ import com.device.storeplus.storeplus.models.User;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import java.io.BufferedInputStream;
@@ -35,6 +37,8 @@ import java.util.Map;
  */
 public class ServerApi {
 
+    static final String serverHostName = "192.168.1.15:8080/";
+
     public static User getUserDetails(long uid) {
         String jsonResult = Json.getUserDetails(uid);
 
@@ -52,7 +56,7 @@ public class ServerApi {
     }
 
     public static Bag getUserBag(long uid) {
-        String jsonResult = Json.getUserBag(uid);
+        String jsonResult = Json.getUserBag("0", uid);
 
         JsonParserFactory factory = JsonParserFactory.getInstance();
         JSONParser parser = factory.newJsonParser();
@@ -120,7 +124,7 @@ public class ServerApi {
     }
 
     public static Boolean addItemToBag(long iid, long uid, String size) throws Exception {
-        String jsonResult = Json.addItemToBag(iid, uid, size);
+        String jsonResult = Json.addItemToBag("0", iid, uid, size);
         JsonParserFactory factory = JsonParserFactory.getInstance();
         JSONParser parser = factory.newJsonParser();
         Map response = parser.parseJson(jsonResult.toString());
@@ -136,7 +140,7 @@ public class ServerApi {
     }
 
     public static Boolean removeItemFromBag(long iid, long uid, String size) throws Exception {
-        String jsonResult = Json.removeItemFromBag(iid, uid, size);
+        String jsonResult = Json.removeItemFromBag("0", iid, uid, size);
         JsonParserFactory factory = JsonParserFactory.getInstance();
         JSONParser parser = factory.newJsonParser();
         Map response = parser.parseJson(jsonResult.toString());
@@ -152,7 +156,7 @@ public class ServerApi {
     }
 
     public static Boolean cleanUserBag(long uid) throws Exception {
-        String jsonResult = Json.cleanUserBag(uid);
+        String jsonResult = Json.cleanUserBag("0", uid);
         JsonParserFactory factory = JsonParserFactory.getInstance();
         JSONParser parser = factory.newJsonParser();
         Map response = parser.parseJson(jsonResult.toString());
@@ -168,7 +172,7 @@ public class ServerApi {
     }
 
     public static ArrayList<SingleItem> getUserPastItems(long uid) {
-        String jsonResult = Json.getUserBag(uid);
+        String jsonResult = Json.getUserBag("0", uid);
 
         JsonParserFactory factory = JsonParserFactory.getInstance();
         JSONParser parser = factory.newJsonParser();
@@ -212,41 +216,23 @@ public class ServerApi {
 
         public static String getItemDetails(String iid, String lang, String currency) {
 
-            String inputJsonString = GET("http://192.168.1.15:8080/api/items" + iid + "?type=text");
+            String params = "store/0/items";
+            params += "/" + iid;
+            params += lang != null ? "/lang/" + lang : "";
+            params += currency  != null ? "/currency /" + currency : "";
 
-            String inputJsonString1 = "{\n" +
-                    "    \"id\": 2,\n" +
-                    "    \"name\": \"Micro-patterned oxford shirt\",\n" +
-                    "    \"price\": 25.99,\n" +
-                    "    \"imageURL\": \"http://static.zara.net/photos//2015/V/0/2/p/4036/260/403/2/w/1024/4036260403_1_1_1.jpg\",\n" +
-                    "    \"sizes\": [\n" +
-                    "         {\n" +
-                    "               \"name\": \"s\",\n" +
-                    "               \"title\": \"S\",\n" +
-                    "               \"inbagsStock\": \"0\",\n" +
-                    "               \"availbleStock\": \"4\"\n" +
-                    "         },\n" +
-                    "         {\n" +
-                    "               \"name\": \"m\",\n" +
-                    "               \"title\": \"M\",\n" +
-                    "               \"inbagsStock\": \"1\",\n" +
-                    "               \"availbleStock\": \"2\"\n" +
-                    "         },\n" +
-                    "         {\n" +
-                    "               \"name\": \"l\",\n" +
-                    "               \"title\": \"L\",\n" +
-                    "               \"inbagsStock\": \"2\",\n" +
-                    "               \"availbleStock\": \"5\"\n" +
-                    "         }\n" +
-                    "    ]\n" +
-                    "}";
+            String jsonResult = GET("http://" + ServerApi.serverHostName +  params + "?type=text");
 
-
-            return inputJsonString;
+            return jsonResult;
         }
 
-        public static String getUserBag(long uid) {
-            return "{\n" +
+        public static String getUserBag(String sid, long uid) {
+            String params = "store/" + sid + "/users" + uid + "/inbag";
+
+            String jsonResult = GET("http://" + ServerApi.serverHostName +  params + "?type=text");
+            return jsonResult;
+
+            /*return "{\n" +
                     "     \"user\": \n" +
                     "     {\n" +
                     "          \"uid\": \"14932590\",\n" +
@@ -286,99 +272,154 @@ public class ServerApi {
                     "             }\n" +
                     "          ]     \n" +
                     "     }\n" +
-                    "}";
+                    "}";*/
         }
 
-        public static String addItemToBag(long iid, long uid, String size) {
-            if (uid != 666)
-                return "{\n" +
-                        "\t    \"status\": \"success\",\n" +
-                        "\t    \"items in bag\": 4\n" +
-                        "}";
+        public static String addItemToBag(String sid, long iid, long uid, String size) {
+            String params = "store/" + sid + "/users" + uid + "/inbag";
+            params += "/" + iid;
 
-            return "{\n" +
-                    "\t    \"status\": \"error\",\n" +
-                    "    \"items in bag\": 10\n" +
-                    "\t    \"error message\": \"Too many items in bag. Please remove some\"\n" +
-                    "}";
+            String jsonResult = POST("http://" + ServerApi.serverHostName +  params + "?type=text");
+            return jsonResult;
+//
+//            if (uid != 666)
+//                return "{\n" +
+//                        "\t    \"status\": \"success\",\n" +
+//                        "\t    \"items in bag\": 4\n" +
+//                        "}";
+//
+//            return "{\n" +
+//                    "\t    \"status\": \"error\",\n" +
+//                    "    \"items in bag\": 10\n" +
+//                    "\t    \"error message\": \"Too many items in bag. Please remove some\"\n" +
+//                    "}";
         }
 
-        public static String removeItemFromBag(long iid, long uid, String size) {
-            if (uid != 666)
-                return "{\n" +
-                        "\t    \"status\": \"success\",\n" +
-                        "\t    \"items in bag\": 4\n" +
-                        "}";
+        public static String removeItemFromBag(String sid, long iid, long uid, String size) {
 
-            return "{\n" +
-                    "\t    \"status\": \"error\",\n" +
-                    "    \"items in bag\": 10\n" +
-                    "\t    \"error message\": \"item does not exist in bag\"\n" +
-                    "}";
+            String params = "store/" + sid + "/users" + uid + "/inbag";
+            params += "/" + iid;
+
+            String jsonResult = DELETE("http://" + ServerApi.serverHostName + params + "?type=text");
+            return jsonResult;
+
+//            if (uid != 666)
+//                return "{\n" +
+//                        "\t    \"status\": \"success\",\n" +
+//                        "\t    \"items in bag\": 4\n" +
+//                        "}";
+//
+//            return "{\n" +
+//                    "\t    \"status\": \"error\",\n" +
+//                    "    \"items in bag\": 10\n" +
+//                    "\t    \"error message\": \"item does not exist in bag\"\n" +
+//                    "}";
         }
 
-        public static String cleanUserBag(long uid) {
-            if (uid != 666)
-                return "{\n" +
-                        "\t    \"status\": \"success\",\n" +
-                        "}";
+        public static String cleanUserBag(String sid, long uid) {
 
-            return "{\n" +
-                    "\t    \"status\": \"error\",\n" +
-                    "\t    \"error message\": \"user does not exist\"\n" +
-                    "}";
+            String params = "store/" + sid + "/users" + uid + "/inbag";
+
+            String jsonResult = DELETE("http://" + ServerApi.serverHostName + params + "?type=text");
+            return jsonResult;
+
+//            if (uid != 666)
+//                return "{\n" +
+//                        "\t    \"status\": \"success\",\n" +
+//                        "}";
+//
+//            return "{\n" +
+//                    "\t    \"status\": \"error\",\n" +
+//                    "\t    \"error message\": \"user does not exist\"\n" +
+//                    "}";
         }
 
         public static String getUserDetails(long uid) {
-            return "{\n" +
-                    "     \"uid\": \"14932590\",\n" +
-                    "     \"name\": \"Tomer Shohet\",\n" +
-                    "     \"imageURL\": \"https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xtf1/v/t1.0-1/p160x160/10561763_10152659558942682_4962942110060764144_n.jpg?oh=fc3a189547e1d87d0e22ac1c13e975fb&oe=56217C4E&__gda__=1445122776_a533be467206cc4ec8cac28d84f98260\"      \n" +
-                    "}";
+            String params = "users/" + uid;
+
+            String jsonResult = GET("http://" + ServerApi.serverHostName +  params + "?type=text");
+            return jsonResult;
+
+//            return "{\n" +
+//                    "     \"uid\": \"14932590\",\n" +
+//                    "     \"name\": \"Tomer Shohet\",\n" +
+//                    "     \"imageURL\": \"https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xtf1/v/t1.0-1/p160x160/10561763_10152659558942682_4962942110060764144_n.jpg?oh=fc3a189547e1d87d0e22ac1c13e975fb&oe=56217C4E&__gda__=1445122776_a533be467206cc4ec8cac28d84f98260\"      \n" +
+//                    "}";
         }
 
-        public static String getUserPastItems(long uid) {
-            return "{\n" +
-                    "     \"user\": \n" +
-                    "     {\n" +
-                    "          \"uid\": \"14932590\",\n" +
-                    "          \"name\": \"Tomer Shohet\",\n" +
-                    "          \"imageUrl\": \"https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xtf1/v/t1.0-1/p160x160/10561763_10152659558942682_4962942110060764144_n.jpg?oh=fc3a189547e1d87d0e22ac1c13e975fb&oe=56217C4E&__gda__=1445122776_a533be467206cc4ec8cac28d84f98260\"      \n" +
-                    "     },\n" +
-                    "    \"items\": \n" +
-                    "     [\n" +
-                    "       {\n" +
-                    "    \t          \"id\": 2,\n" +
-                    "\t          \"title\": \"Micro-patterned oxford shirt\",\n" +
-                    "          \"price\": 25.99,\n" +
-                    "\t          \"imageURL\":    \"http://static.zara.net/photos//2015/V/0/2/p/4036/260/403/2/w/1024/4036260403_1_1_1.jpg\",\n" +
-                    "          \"size\": \n" +
-                    "               {\n" +
-                    "                    \"name\": \"m\",\n" +
-                    "                    \"title\": \"M\"\n" +
-                    "              }\n" +
-                    "          \"location\": \"101 5th Avenue, New York, NY, United States\",\n" +
-                    "          \"Date\": \"10/03/2015 16:06:50\",\n" +
-                    "          },\n" +
-                    "          {\n" +
-                    "    \t         \"id\": 43,\n" +
-                    "         \"price\": 39.99,\n" +
-                    "         \"imageURL\":\n" +
-                    "\"http://static.zara.net/photos//2015/V/0/2/p/0706/405/700/2/w/1024/0706405700_1_1_1.jpg\",\n" +
-                    "         \"size\": \n" +
-                    "               {\n" +
-                    "                    \"name\": \"m\",\n" +
-                    "                    \"title\": \"M\"\n" +
-                    "              }\n" +
-                    "          \"location\": \"101 5th Avenue, New York, NY, United States\",\n" +
-                    "          \"Date\": \"10/03/2015 16:05:00\",\n" +
-                    "        }\n" +
-                    "     ]     \n" +
-                    "}";
+        public static String getUserPastItems(String sid, long uid) {
+            String params = "store/" + sid + "/users" + uid + "/pastBag";
+
+            String jsonResult = GET("http://" + ServerApi.serverHostName +  params + "?type=text");
+            return jsonResult;
+
+//            return "{\n" +
+//                    "     \"user\": \n" +
+//                    "     {\n" +
+//                    "          \"uid\": \"14932590\",\n" +
+//                    "          \"name\": \"Tomer Shohet\",\n" +
+//                    "          \"imageUrl\": \"https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xtf1/v/t1.0-1/p160x160/10561763_10152659558942682_4962942110060764144_n.jpg?oh=fc3a189547e1d87d0e22ac1c13e975fb&oe=56217C4E&__gda__=1445122776_a533be467206cc4ec8cac28d84f98260\"      \n" +
+//                    "     },\n" +
+//                    "    \"items\": \n" +
+//                    "     [\n" +
+//                    "       {\n" +
+//                    "    \t          \"id\": 2,\n" +
+//                    "\t          \"title\": \"Micro-patterned oxford shirt\",\n" +
+//                    "          \"price\": 25.99,\n" +
+//                    "\t          \"imageURL\":    \"http://static.zara.net/photos//2015/V/0/2/p/4036/260/403/2/w/1024/4036260403_1_1_1.jpg\",\n" +
+//                    "          \"size\": \n" +
+//                    "               {\n" +
+//                    "                    \"name\": \"m\",\n" +
+//                    "                    \"title\": \"M\"\n" +
+//                    "              }\n" +
+//                    "          \"location\": \"101 5th Avenue, New York, NY, United States\",\n" +
+//                    "          \"Date\": \"10/03/2015 16:06:50\",\n" +
+//                    "          },\n" +
+//                    "          {\n" +
+//                    "    \t         \"id\": 43,\n" +
+//                    "         \"price\": 39.99,\n" +
+//                    "         \"imageURL\":\n" +
+//                    "\"http://static.zara.net/photos//2015/V/0/2/p/0706/405/700/2/w/1024/0706405700_1_1_1.jpg\",\n" +
+//                    "         \"size\": \n" +
+//                    "               {\n" +
+//                    "                    \"name\": \"m\",\n" +
+//                    "                    \"title\": \"M\"\n" +
+//                    "              }\n" +
+//                    "          \"location\": \"101 5th Avenue, New York, NY, United States\",\n" +
+//                    "          \"Date\": \"10/03/2015 16:05:00\",\n" +
+//                    "        }\n" +
+//                    "     ]     \n" +
+//                    "}";
         }
 
-         
         public static String GET(String url){
+            InputStream inputStream = null;
+            String result = "";
+            try {
+
+                // create HttpClient
+                HttpClient httpclient = new DefaultHttpClient();
+
+                // make GET request to the given URL
+                HttpResponse httpResponse = httpclient.execute(new HttpGet(url));
+
+                // receive response as inputStream
+                inputStream = httpResponse.getEntity().getContent();
+
+                // convert inputstream to string
+                if(inputStream != null)
+                    result = convertInputStreamToString(inputStream);
+                else
+                    result = "Did not work!";
+
+            } catch (Exception e) {
+                Log.d("InputStream", e.getLocalizedMessage());
+            }
+
+            return result;
+        }
+         
+        public static String DELETE(String url){
             InputStream inputStream = null;
             String result = "";
             try {
@@ -387,7 +428,7 @@ public class ServerApi {
                     HttpClient httpclient = new DefaultHttpClient();
 
                     // make GET request to the given URL
-                    HttpResponse httpResponse = httpclient.execute(new HttpGet(url));
+                    HttpResponse httpResponse = httpclient.execute(new HttpDelete(url));
 
                     // receive response as inputStream
                     inputStream = httpResponse.getEntity().getContent();
@@ -401,6 +442,33 @@ public class ServerApi {
                 } catch (Exception e) {
                     Log.d("InputStream", e.getLocalizedMessage());
                 }
+
+            return result;
+        }
+
+        public static String POST(String url){
+            InputStream inputStream = null;
+            String result = "";
+            try {
+
+                // create HttpClient
+                HttpClient httpclient = new DefaultHttpClient();
+
+                // make GET request to the given URL
+                HttpResponse httpResponse = httpclient.execute(new HttpPost(url));
+
+                // receive response as inputStream
+                inputStream = httpResponse.getEntity().getContent();
+
+                // convert inputstream to string
+                if(inputStream != null)
+                    result = convertInputStreamToString(inputStream);
+                else
+                    result = "Did not work!";
+
+            } catch (Exception e) {
+                Log.d("InputStream", e.getLocalizedMessage());
+            }
 
             return result;
         }
